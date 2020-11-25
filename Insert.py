@@ -50,7 +50,39 @@ def insert_LectureCount():
                         """,(rows[0],rows[1],rows[2],rows[3],rows[4]))
 
 
-# insert_student()
-insert_LectureCount()
+
+
+def insert_attendance ():
+   
+    cursor = conn.execute(""" 
+                        select cid,sid from student;
+                    """)
+        
+    for rows in cursor:
+        print(rows[0],rows[1])
+        if rows[0]<=3 :
+            
+            conn.execute("""    
+                        insert into SE (cid,sid,oop,dsa,deld,dm,coa) values (?,?,?,?,?,?,?)
+            
+                        """,(rows[0],rows[1],0,0,0,0,0))
+            
+        elif rows[0]<=6:
+            conn.execute("""    
+                        insert into TE (cid,sid,cn,dbms,toc,isee,sepm) values (?,?,?,?,?,?,?)
+            
+                        """,(rows[0],rows[1],0,0,0,0,0))
+            
+        else:
+            conn.execute("""    
+                        insert into BE (cid,sid,ai,e1,e2,comp,da) values (?,?,?,?,?,?,?)
+            
+                        """,(rows[0],rows[1],0,0,0,0,0))
+            
+
+
+
+insert_attendance()
+print(" Inserted Sucessfully")
 conn.commit()
 conn.close()
