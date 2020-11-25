@@ -22,20 +22,26 @@ def update_attendance(year,div,subject):
         write.writerow(['StudentID','Name','P/A'])
         for row in list:
             write.writerow(row)
-    print("Created Table")
-    os.system('start excel Temparary.csv')
-    _=input("Done ?(y/n):")
-    with open('1.csv','r') as file:
-        read=csv.reader(file)
-        for row in read:
-            print(row)
-
+    print("*****  OPEN TEMOPRARY.CSV and MARK Attendance *****")
+    # os.system('start excel Temparary.csv')
+    # _=input("Done ?(y/n):")
+    # with open('1.csv','r') as file:
+    #     read=csv.reader(file)
+    #     for row in read:
+    #         print(row)
+    choice = "a"
+    while choice !="exit":
+        choice = input("Enter Confirm to update or exit to abort : ")
+        if choice == "Confirm":
+            # update
+            conn.commit()
+            
 
 
 
 
 
 # update_count('A','DSA')
-update_attendance('SE','C','DSA')
+update_attendance('SE','B','DSA')
 conn.commit()
 conn.close()

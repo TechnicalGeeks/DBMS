@@ -6,13 +6,6 @@ def Student():
     print("Successfulyy estabilished Connection ... ")
 
     # Enter Table Schema below
-<<<<<<< HEAD
-
-
-
-    
-=======
->>>>>>> adff9cb810ce6c13f96762b7a1bed6a103aa5ffe
     conn.execute("""
                 Craete Table Student (
                 s_id number Primary key ,
@@ -80,6 +73,7 @@ if __name__ == '__main__':
         choice =int(input("\nEnter Choice : "))
 
         if choice == 1:
+
             pass
         elif choice==2:
             pass
