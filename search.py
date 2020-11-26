@@ -16,7 +16,7 @@ def details_student():
 
         cursor.execute(""" 
                             select * from {year} inner join  Student on 
-                                Student.sid = ? and se.sid= ?
+                                Student.sid = ? and {year}.sid= ?
         
                             """.format(year=year),(sid,sid))
         
