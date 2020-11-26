@@ -5,6 +5,7 @@ import os
 conn=sqlite3.connect("Attendance.db")
 cursor=conn.cursor()
 def update_count(div,subject):
+    # Return lecture count 
     cursor.execute(f'select {div} from lec_count where subject=?',(subject,))
     count=int(cursor.fetchone()[0])
     print("count=",count)
@@ -25,7 +26,7 @@ def update_attendance(year,div,subject):
         for row in list:
             write.writerow(row)
     print("*****  Mark Attendance and Save CSV file as 1.csv *****")
-    os.system('start excel Temparary.csv')
+    os.system('start  Temparary.csv')
     print("Type 'confirm' to continue And 'exit'to abort")
     choice=input("Done ?(y/n):")
     if choice=='exit':

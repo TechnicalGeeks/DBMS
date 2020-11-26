@@ -37,4 +37,17 @@ def insert_complete():
         """,(cid,sid,p,p,p,p,p,))
     conn.commit()
     conn.close()
-insert_complete()
+
+
+def subjects():
+
+    year = input("Enter Year : ").upper()
+
+    cursor.execute(""" 
+                select subject from lec_count where year = ?
+                """,(year,))
+    sub = cursor.fetchall()
+
+    print(type(sub))            
+
+subjects()

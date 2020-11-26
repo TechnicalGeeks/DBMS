@@ -1,34 +1,18 @@
 import sqlite3
 
 
-conn = sqlite3.connect('Attendance.db')
-print ("Opened database successfully");
+
+class animal:
+
+    # def __init__(self, *args, **kwargs):
+    #     print("This is constructor")
+
+    def fun(self):
+        print("This func bro call by B")
 
 
-# conn.execute('''
-#             Create table student (
-#                 s_id number ,
-#                 name varchar2(20),
-#                 mobile number(10)
-#             );        
-#             ''')
+if __name__ == '__main__':
+    print("HELLO VINIT MAKE MENUE")
 
-
-# print ("Table Created  successfully");
-
-
-conn.execute("""insert into student (s_id,name,mobile) values (1,'Rohan',9999999999)""" )
-
-print("\n__________ Printing table content _______________\n")
-
-cursor = conn.execute("SELECT  s_id,name,mobile from student")
-
-for row in cursor:
-    print("ID     : ",row[0])
-    print("Name   : ",row[1])
-    print("Mobile : ",row[2])
-
-
-
-print("Operation done successfully")
-conn.close()
+    a = animal()
+    b =animal()
