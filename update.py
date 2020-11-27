@@ -14,7 +14,7 @@ def update_count(div,subject):
     conn.commit()
     return count+1
 
-def update_attendance(year,div,subject):
+def createAttendanceSheet(year,div,subject):
     cursor.execute('select cid from class where year=? and div=?',(year,div))
     classID=int(cursor.fetchone()[0])
     print(classID)
@@ -27,12 +27,27 @@ def update_attendance(year,div,subject):
             write.writerow(row)
     print("*****  Mark Attendance and Save CSV file as 1.csv *****")
     os.system('start  Temparary.csv')
-    print("Type 'confirm' to continue And 'exit'to abort")
-    choice=input("Done ?(y/n):")
-    if choice=='exit':
-        print("Process is aborted")
-        return
-    os.system('del Temparary.csv')
+
+
+def update_attendance(year,div,subject):
+    cursor.execute('select cid from class where year=? and div=?',(year,div))
+    classID=int(cursor.fetchone()[0])
+    print(classID)
+    cursor.execute(f'select sid,name from student where cid={classID};')
+    # list=cursor.fetchall()
+    # with open('Temparary.csv','w') as file:
+    #     write=csv.writer(file,lineterminator="\n")
+    #     write.writerow(['StudentID','Name','P/A'])
+    #     for row in list:
+    #         write.writerow(row)
+    # print("*****  Mark Attendance and Save CSV file as 1.csv *****")
+    # os.system('start  Temparary.csv')
+    # print("Type 'confirm' to continue And 'exit'to abort")
+    # choice=input("Done ?(y/n):")
+    # if choice=='exit':
+    #     print("Process is aborted")
+    #     return
+    # os.system('del Temparary.csv')
     attendance=dict()
     count=update_count(div,subject)
     if count==1: preCount=1
@@ -41,7 +56,7 @@ def update_attendance(year,div,subject):
     list=cursor.fetchall()
     for rows in list:
         attendance[rows[0]]=int(rows[1])
-    with open('1.csv','r') as file:
+    with open('Temparary.csv','r') as file:
         read=csv.reader(file)
         i=0
         for row in read:
@@ -56,13 +71,32 @@ def update_attendance(year,div,subject):
     for id in attendance.keys():
         print(int(attendance[id]))
         cursor.execute(f'update {year} set {subject}={attendance[id]} where cid={classID} and sid={id}  ')      
-    print("Updated Attendance Sucessfully ...")    
+    print("Updated Attendance Sucessfully ...") 
+    os.system('del Temparary.csv')   
+    conn.commit()
 
+def inputs():
+    year=input("Enter Year :").upper()
+    div=input("Enter Division :").upper()
+    subject=input("Enter Subject :").upper()
+    return [year,div,subject]
 
-
-
+def update_menu():
+    ch=-1
+    year,div,subject=inputs()
+    
+    while ch!=0:
+        print("******Update Menu*******")
+        print(" 1. Create Attendance Sheet\n 2. Update Attendance \n 3. Change Year/Div/Subject \n 0. Exit")
+        ch=input("Enter Your Choice : ")
+        if ch=='1': createAttendanceSheet(year,div,subject)
+        elif ch=='2': update_attendance(year,div,subject)
+        elif ch=='3': year,div,subject=inputs()
+        elif ch=='0': return
+        else: print("Invalid Choice. Try Again.")
 
 # update_count('A','DSA')
-update_attendance('SE','B','DSA')
+# update_attendance('SE','B','DSA')
+update_menu()
 conn.commit()
 conn.close()
