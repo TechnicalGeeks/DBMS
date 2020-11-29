@@ -82,7 +82,6 @@ def insert_attendance ():
 
 
 
-insert_attendance()
 print(" Inserted Sucessfully")
 conn.commit()
 conn.close()

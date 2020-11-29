@@ -86,17 +86,20 @@ def update_menu():
     year,div,subject=inputs()
     
     while ch!=0:
-        print("******Update Menu*******")
+        print("******\tUpdate Menu\t*******")
         print(" 1. Create Attendance Sheet\n 2. Update Attendance \n 3. Change Year/Div/Subject \n 0. Exit")
         ch=input("Enter Your Choice : ")
-        if ch=='1': createAttendanceSheet(year,div,subject)
+        if ch=='1': 
+            createAttendanceSheet(year,div,subject)
+
         elif ch=='2': update_attendance(year,div,subject)
         elif ch=='3': year,div,subject=inputs()
-        elif ch=='0': return
+        elif ch=='0': 
+            conn.commit()
+            conn.close()
+            return
         else: print("Invalid Choice. Try Again.")
 
 # update_count('A','DSA')
 # update_attendance('SE','B','DSA')
-update_menu()
-conn.commit()
-conn.close()
+# update_menu()

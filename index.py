@@ -1,3 +1,9 @@
+
+import insert1
+import update
+import search
+import defaulter
+
 choice=1
 while(choice!=5):
     print("Welcome to Attendance Management System ")
@@ -9,11 +15,14 @@ while(choice!=5):
     print("5. Exit ")
     choice=int(input())
     if choice==1:
-        import insert1
+        insert1.insert_complete()
     elif choice==2:
-        import update
+        update.update_menu()
     elif choice==3:
-        import search
+        search.details_student()
     elif choice==4:
-        import defaulter
-
+        defaulter.displayDivisionWiseAttendance()
+        
+    else:
+        print("__ Thanks For Visiting  __") 
+        break

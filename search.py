@@ -61,7 +61,3 @@ def details_student():
         else:
             print(data) 
 
-
-
-details_student()    
-

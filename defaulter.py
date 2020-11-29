@@ -5,6 +5,21 @@ cursor = conn.cursor()
 print("Connection established Successfully ....  ")
 
 # Only display
+
+def display(headings,data):
+
+    for heads in headings:
+        print(heads,end="\t\t")
+    print()
+
+    for i in data: 
+        for j in i:
+    
+            print(j,end="\t\t")
+        print()
+
+
+
 def displayDivisionWiseAttendance():
     year = input("Enter Year (SE/TE/BE) :  ")
     cid=input("Enter Your Division  ")
@@ -82,12 +97,33 @@ def subjectDefaulter():
     if data == []:
         print("\n-------- NO DATA FOUND ----------")
     else:
-        print(data)
+        display(["Name","Roll","DIV","Subject"],data)
 
 
 
 # displayDivisionWiseAttendance()
 # overallDivisionWiseDefaulter()
+subjectDefaulter()
+
+
+def defaulter_menu():
+    ch=-1
+    year,div,subject=inputs()
+
+    while ch!=0:
+        print("******Update Menu*******")
+        print(" 1. Create Attendance Sheet\n 2. Update Attendance \n 3. Change Year/Div/Subject \n 0. Exit")
+        ch=input("Enter Your Choice : ")
+        if ch=='1': createAttendanceSheet(year,div,subject)
+        elif ch=='2': update_attendance(year,div,subject)
+        elif ch=='3': year,div,subject=inputs()
+        elif ch=='0': 
+                    conn.commit()
+                    conn.close()
+                    return
+        else: print("Invalid Choice. Try Again.")
+
+
+# displayDivisionWiseAttendance()        
 # subjectDefaulter()
-
-
+# overallDivisionWiseDefaulter()

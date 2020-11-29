@@ -3,11 +3,8 @@ import sqlite3
 conn =sqlite3.connect("Attendance.db")
 cursor = conn.cursor()
 print("Connection established Successfully ....  ")
-def insert_complete():
-    name=input("Enter Your Name  ")
-    roll=int(input("Enter Your Roll no.  "))
-    year=input("Enter Your Year of Study  ")
-    div=input("Enter Your Division  ")
+def insert_complete(name,roll,year,div):
+    
     cursor.execute("""
         select CID from CLASS where Year=? and Div=?;
     """,(year,div,))
@@ -50,4 +47,12 @@ def subjects():
 
     print(type(sub))            
 
-subjects()
+
+def insert_menue():
+    name=input("Enter Your Name  ").upper()
+    roll=int(input("Enter Your Roll no.  "))
+    year=input("Enter Your Year of Study  ")
+    div=input("Enter Your Division  ")
+
+    insert_complete()
+    pass
