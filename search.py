@@ -2,34 +2,35 @@ import sqlite3
 
 conn =sqlite3.connect("Attendance.db")
 cursor = conn.cursor()
-print("Connection established Successfully ....  ")
 
-def details_student():
-    year = input("Enter Year (SE/TE/BE) :  ").upper()
+def details_student_SID(year,sid):
+  
+    print("Connection established Successfully ....  ")
+
+    sub = [["OOP","DSA","DELD","DM","COA"],["CN","DBMS","TOC","ISEE","SEPM"],["AI","E1","E2","Computaion","DA"]]
     # division = input("Enter Division (A/B/C) : ")
 
-    choice = int (input("---  Search By --- \n1.Student ID (SID)\n2.Name\n3.Roll number\nEnter choice : "))
+    cursor.execute(""" 
+                        select * from {year} inner join  Student on 
+                            Student.sid = ? and {year}.sid= ?
+    
+                        """.format(year=year),(sid,sid))
+    
+    data = cursor.fetchall()
+    if data == [] :
+        print("\n______  Sorry !! No DATA FOUND _____\n")
+    else :
+        print(data)
 
 
-    if choice == 1:
-        sid = int (input ("Enter Student ID (SID) : "))
 
-        cursor.execute(""" 
-                            select * from {year} inner join  Student on 
-                                Student.sid = ? and {year}.sid= ?
-        
-                            """.format(year=year),(sid,sid))
-        
-        data = cursor.fetchall()
-        if data == [] :
-            print("\n______  Sorry !! No DATA FOUND _____\n")
-        else :
-            print (data)
 
-    elif choice == 2 :
-        div = input("Enter division (A/B/C) : ").upper()
-        year1 =" " +year +" "
-        name1 = input("Enter Name : ").upper()
+def search_display(headings,data):
+    pass
+
+
+def details_student_name(year,div,name1):
+    
         name1= '%'+name1+'%'
         print(type(year),div,name1)
         
@@ -43,12 +44,10 @@ def details_student():
         if data == []:
             print("\n-------   No data found  -----------\n")
         else:
-            print(data)    
+            print(data)   
 
-    else:
-        div = input("Enter division (A/B/C) : ").upper()
-        roll = int (input("Enter Roll number (EG 101,332): "))
 
+def details_student_roll(year,div,roll):
         flag = cursor.execute(""" 
                     SELECT * from {year} 
                     INNER JOIN StudenT
@@ -60,4 +59,40 @@ def details_student():
             print("\n-------   No data found  -----------\n")
         else:
             print(data) 
+    
+
+
+
+
+
+
+def search_menu():
+    choice=0
+    while(choice!=9):
+        print("\n*****  Welcome To Search Terminal *****\n")
+
+        choice = int (input("---  Search By --- \n1.Student ID (SID)\n2.Name\n3.Roll number\n9.Exit\nEnter choice : "))
+
+
+        if choice==9:
+            break
+
+        year = input("\nEnter Year (SE/TE/BE) :  ").upper()
+
+        if choice == 1:
+            sid = int(input("Enter SID (EG 1,32,32) : "))
+            details_student_SID(year=year,sid=sid)
+        
+        elif  choice ==2 :
+            div = input("Enter Division (A/B/C) :  ").upper()
+            name = input("Enter name : ").upper()
+            details_student_name(year,div,name)
+            
+        elif choice == 3:
+            div = input("Enter Division (A/B/C) :  ").upper()
+            roll = int(input("Enter Roll Number (Eg 101,202,303) :  "))
+            details_student_roll(year,div,roll)
+
+        else:
+            print("Invalid Choice Try again !!")    
 
