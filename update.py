@@ -1,7 +1,7 @@
 import sqlite3
 import csv
 import os
-
+import displayTables as d
 conn=sqlite3.connect("Attendance.db")
 cursor=conn.cursor()
 def update_count(div,subject):
@@ -17,7 +17,7 @@ def update_count(div,subject):
 def createAttendanceSheet(year,div,subject):
     cursor.execute('select cid from class where year=? and div=?',(year,div))
     classID=int(cursor.fetchone()[0])
-    print(classID)
+    # print(classID)
     cursor.execute(f'select sid,name from student where cid={classID};')
     list=cursor.fetchall()
     with open('Temparary.csv','w') as file:
@@ -32,22 +32,8 @@ def createAttendanceSheet(year,div,subject):
 def update_attendance(year,div,subject):
     cursor.execute('select cid from class where year=? and div=?',(year,div))
     classID=int(cursor.fetchone()[0])
-    print(classID)
+    # print(classID)
     cursor.execute(f'select sid,name from student where cid={classID};')
-    # list=cursor.fetchall()
-    # with open('Temparary.csv','w') as file:
-    #     write=csv.writer(file,lineterminator="\n")
-    #     write.writerow(['StudentID','Name','P/A'])
-    #     for row in list:
-    #         write.writerow(row)
-    # print("*****  Mark Attendance and Save CSV file as 1.csv *****")
-    # os.system('start  Temparary.csv')
-    # print("Type 'confirm' to continue And 'exit'to abort")
-    # choice=input("Done ?(y/n):")
-    # if choice=='exit':
-    #     print("Process is aborted")
-    #     return
-    # os.system('del Temparary.csv')
     attendance=dict()
     count=update_count(div,subject)
     if count==1: preCount=1
@@ -69,9 +55,13 @@ def update_attendance(year,div,subject):
                 attendance[sid]=(attendance[sid]+att)*preCount/count
     # print(attendance)   
     for id in attendance.keys():
-        print(int(attendance[id]))
+        # print(int(attendance[id]))
         cursor.execute(f'update {year} set {subject}={attendance[id]} where cid={classID} and sid={id}  ')      
     print("Updated Attendance Sucessfully ...") 
+    cursor.execute(f'select student.roll,student.name, {subject} from {year},student where {year}.cid={classID} and {year}.sid=student.sid')
+    data=cursor.fetchall()
+    d.viewTable(['Roll No.','Name',subject],data)
+
     os.system('del Temparary.csv')   
     conn.commit()
 
@@ -89,17 +79,19 @@ def update_menu():
         print("******\tUpdate Menu\t*******")
         print(" 1. Create Attendance Sheet\n 2. Update Attendance \n 3. Change Year/Div/Subject \n 0. Exit")
         ch=input("Enter Your Choice : ")
-        if ch=='1': 
-            createAttendanceSheet(year,div,subject)
-
-        elif ch=='2': update_attendance(year,div,subject)
-        elif ch=='3': year,div,subject=inputs()
-        elif ch=='0': 
-            conn.commit()
-            conn.close()
-            return
-        else: print("Invalid Choice. Try Again.")
+        try:
+            if ch=='1': createAttendanceSheet(year,div,subject)
+            elif ch=='2': update_attendance(year,div,subject)
+            elif ch=='3': year,div,subject=inputs()
+            elif ch=='0': 
+                conn.commit()
+                conn.close()
+                return
+            else: print("Invalid Choice. Try Again.")
+        except Exception as e:
+            print("___ Something Went Wrong ___")
+            print(" Exception :",e)
 
 # update_count('A','DSA')
 # update_attendance('SE','B','DSA')
-# update_menu()
+update_menu()
