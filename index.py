@@ -21,7 +21,7 @@ while(choice!=5):
     elif choice==3:
         search.details_student()
     elif choice==4:
-        defaulter.displayDivisionWiseAttendance()
+        defaulter.defMenu()
         
     else:
         print("__ Thanks For Visiting  __") 
